@@ -6,6 +6,7 @@ import (
 	"errors"
 	"net/http"
 
+	log "github.com/sirupsen/logrus"
 	vegeta "github.com/tsenart/vegeta/lib"
 )
 
@@ -45,13 +46,14 @@ func NewSnapshotTargeter(shareCh <-chan *Share) vegeta.Targeter {
 		target.Method = "POST"
 		target.URL = baseURL + "/snapshots"
 		target.Header = header
+		log.Debug(target)
 
 		s, ok := <-shareCh
 		if ok {
 			payload := &Payload{Snapshot{s.ShareId, false, "", ""}}
 			buf := new(bytes.Buffer)
 			json.NewEncoder(buf).Encode(payload)
-
+			log.Debug(buf.String())
 			target.Body = buf.Bytes()
 			return nil
 		} else {

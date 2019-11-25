@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"time"
@@ -19,6 +20,7 @@ var (
 	duration      time.Duration
 	sharefilepath string
 	tlsc          tls.Config
+	debug         bool
 )
 
 func init() {
@@ -27,6 +29,7 @@ func init() {
 	flag.DurationVar(&duration, "duration", time.Second, "duration")
 	flag.StringVar(&sharefilepath, "shares", "", "path to file that contains share ids each line")
 	flag.StringVar(&baseURL, "url", "", "url")
+	flag.BoolVar(&debug, "debug", false, "debug")
 	flag.Parse()
 	if sharefilepath == "" || baseURL == "" {
 		usage()
@@ -35,6 +38,11 @@ func init() {
 
 	tlsc = tls.Config{InsecureSkipVerify: true}
 
+	if debug {
+		logrus.SetLevel(logrus.DebugLevel)
+	} else {
+		logrus.SetLevel(logrus.InfoLevel)
+	}
 }
 
 func main() {
@@ -82,7 +90,7 @@ func usage() {
 
 func shareGeneratorFromFile(filepath string) (<-chan *Share, error) {
 	var shares []Share
-	sf, err := os.Open(sharefilepath)
+	sf, err := os.Open(filepath)
 	if err != nil {
 		return nil, err
 	}
