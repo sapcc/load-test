@@ -26,4 +26,4 @@ manila-load-test/manila-load-test: manila-load-test/*.go
 
 .Phony: shares
 shares: 
-	manila --os-project-domain-name=$(domain_name) --os-project-name=$(project_name) list | cut -d\| -f 2 | xargs -n 1 echo | tail -n +4 | head --lines=-1 > $@.txt
+	manila --os-user-domain-name=$(domain_name) --os-project-domain-name=$(domain_name) --os-project-name=$(project_name) list | cut -d\| -f 2 | xargs -n 1 echo | tail -n +4 | head --lines=-1 > $@.txt

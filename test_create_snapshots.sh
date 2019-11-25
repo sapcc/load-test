@@ -4,7 +4,7 @@ rate="${3-5}"
 duration="${4-1s}"
 
 echo "get openstack token ..."
-TOKEN=$(openstack --os-project-domain-id=$DOMAIN_ID --os-project-id=$PROJECT_ID --insecure token issue -c id -f value)
+TOKEN=$(openstack --os-user-domain-id=$DOMAIN_ID --os-project-domain-id=$DOMAIN_ID --os-project-id=$PROJECT_ID --insecure token issue -c id -f value)
 token_substring=$(echo $TOKEN | cut -c -30)
 url="https://share-3.qa-de-1.cloud.sap/v2/${PROJECT_ID}"
 
