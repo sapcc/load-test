@@ -24,6 +24,10 @@ snapshot: manila-load-test/manila-load-test
 manila-load-test/manila-load-test: manila-load-test/*.go
 	cd manila-load-test && make
 
+publish:
+	./generate_output.sh
+	./upload_results_to_swift.sh
+
 .Phony: shares
-shares: 
-	manila --os-user-domain-name=$(domain_name) --os-project-domain-name=$(domain_name) --os-project-name=$(project_name) list | cut -d\| -f 2 | xargs -n 1 echo | tail -n +4 | head --lines=-1 > $@.txt
+shares:
+	manila --os-user-domain-name=$(domain_name) --os-project-domain-name=$(domain_name) --os-project-name=$(project_name) list | grep -E 'NFS' | awk '{ print $$2 }' > $@.txt
