@@ -26,7 +26,7 @@ snapshot: manila-load-test/manila-load-test
 manila-load-test/manila-load-test: manila-load-test/*.go
 	cd manila-load-test && make
 
-publish:
+public:
 	./generate_output.sh
 	./upload_results_to_swift.sh
 
