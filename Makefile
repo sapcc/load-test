@@ -9,17 +9,19 @@ attacktime=5m
 all:
 
 share:
-	@rm -f results/results-10-$(attacktime).bin
-	@rm -f results/results-30-$(attacktime).bin
-	@rm -f results/results-50-$(attacktime).bin
-	./test_list_shares.sh $(domain_id) $(project_id) 10 $(attacktime) results/results-10-$(attacktime).bin
+	@rm -f results/share-list-10-$(attacktime).bin
+	@rm -f results/share-list-30-$(attacktime).bin
+	@rm -f results/share-list-50-$(attacktime).bin
+	./test_list_shares.sh $(domain_id) $(project_id) 10 $(attacktime) results/share-list-10-$(attacktime).bin
 	@echo "sleep $(sleeptime) sec" && sleep $(sleeptime)
-	./test_list_shares.sh $(domain_id) $(project_id) 30 $(attacktime) results/results-30-$(attacktime).bin
+	./test_list_shares.sh $(domain_id) $(project_id) 30 $(attacktime) results/share-list-30-$(attacktime).bin
 	@echo "sleep $(sleeptime) sec" && sleep $(sleeptime)
-	./test_list_shares.sh $(domain_id) $(project_id) 50 $(attacktime) results/results-50-$(attacktime).bin
+	./test_list_shares.sh $(domain_id) $(project_id) 50 $(attacktime) results/share-list-50-$(attacktime).bin
 
 snapshot: manila-load-test/manila-load-test
-	./test_create_snapshots.sh $(domain_id) $(project_id) 1 15s
+	./test_create_snapshots.sh $(domain_id) $(project_id) 3 30s
+	@echo "sleep $(sleeptime) sec" && sleep $(sleeptime)
+	./cleanup_snapshots.sh $(domain_id) $(project_id)
 
 manila-load-test/manila-load-test: manila-load-test/*.go
 	cd manila-load-test && make

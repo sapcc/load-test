@@ -14,5 +14,5 @@ echo "uploading to https://objectstore-3.qa-de-1.cloud.sap/v1/AUTH_$PROJECT_ID/$
 
 for file in results/*.{html,txt}
 do
-  swift --os-auth-token $TOKEN upload $CONTAINER $file --object-name ${DATE}_$file
+  swift --os-user-domain-name=$DOMAIN_NAME --os-project-id=$PROJECT_ID --os-auth-token $TOKEN upload $CONTAINER $file --object-name ${DATE}_$file
 done

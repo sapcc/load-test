@@ -50,7 +50,7 @@ func NewSnapshotTargeter(shareCh <-chan *Share) vegeta.Targeter {
 
 		s, ok := <-shareCh
 		if ok {
-			payload := &Payload{Snapshot{s.ShareId, false, "", ""}}
+			payload := &Payload{Snapshot{s.ShareId, false, "load-test-snap", ""}}
 			buf := new(bytes.Buffer)
 			json.NewEncoder(buf).Encode(payload)
 			log.Debug(buf.String())
