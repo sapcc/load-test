@@ -1,3 +1,5 @@
 .idea
 results
 shares.txt
+load-test
+.os_*

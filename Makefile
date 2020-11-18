@@ -27,7 +27,7 @@ manila-load-test/manila-load-test: manila-load-test/*.go
 	cd manila-load-test && make
 
 public:
-	./generate_output.sh
+	./scripts/generate_output.sh
 	./upload_results_to_swift.sh
 
 .Phony: shares
