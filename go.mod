@@ -3,6 +3,8 @@ module github.com/sapcc/load-test
 go 1.15
 
 require (
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
+	github.com/alecthomas/units v0.0.0-20201120081800-1786d5ef83d4 // indirect
 	github.com/bmizerany/perks v0.0.0-20141205001514-d9a9656a3a4b // indirect
 	github.com/dgryski/go-gk v0.0.0-20200319235926-a69029f61654 // indirect
 	github.com/influxdata/tdigest v0.0.1 // indirect
@@ -11,4 +13,5 @@ require (
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/tsenart/vegeta v12.7.0+incompatible
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
+	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )
