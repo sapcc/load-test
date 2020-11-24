@@ -16,9 +16,9 @@ import (
 func main() {
 	var ok bool
 	var targeter vegeta.Targeter
-	var attackerName string
+	var testName string
 	var baseURL string
-	var targeterType string
+	var testType string
 	var endpoint string
 
 	app := kingpin.New("loadtest", "Load test openstack API in CCloud")
@@ -31,6 +31,9 @@ func main() {
 
 	barbicanCmd := app.Command("barbican", "Service Barbican")
 	barbicanEndpoint := barbicanCmd.Arg("endpoint", "API endpoint").Required().String()
+
+	glanceCmd := app.Command("glance", "Service Glance")
+	glanceEndpoint := glanceCmd.Arg("endpoint", "API endpoint").Required().String()
 
 	subcmd := kingpin.MustParse(app.Parse(os.Args[1:]))
 
@@ -51,10 +54,15 @@ func main() {
 
 	switch subcmd {
 	case barbicanCmd.FullCommand():
-		attackerName = "barbican"
+		testType = "static"
+		testName = "barbican"
 		baseURL = fmt.Sprintf("http://keymanager-3.%s.cloud.sap", *region)
-		targeterType = "static"
 		endpoint = *barbicanEndpoint
+	case glanceCmd.FullCommand():
+		testType = "static"
+		testName = "glance"
+		baseURL = fmt.Sprintf("https://image-3.%s.cloud.sap/", *region)
+		endpoint = *glanceEndpoint
 	}
 
 	if *debug {
@@ -64,14 +72,14 @@ func main() {
 	}
 
 	// targeter
-	if targeterType == "static" {
+	if testType == "static" {
 		var err error
 		targeter, err = loadtest.NewStaticTargeter(baseURL, endpoint, *authToken)
 		if err != nil {
 			log.Error(err)
 		}
 	} else {
-		log.Error("Unknown targeter type %s", targeterType)
+		log.Error("Unknown targeter type %s", testType)
 		os.Exit(1)
 	}
 
@@ -82,7 +90,7 @@ func main() {
 		vegeta.Timeout(*timeout),                                // timeout
 	)
 	rate := vegeta.Rate{Freq: *ratePerMinute, Per: time.Minute}
-	loadTestResult := attacker.Attack(targeter, rate, *duration, attackerName)
+	loadTestResult := attacker.Attack(targeter, rate, *duration, testName)
 	log.Debug("Attack rate %v", rate)
 
 	// Interrupt signal
