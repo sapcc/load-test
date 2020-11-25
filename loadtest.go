@@ -56,7 +56,7 @@ func main() {
 	case barbicanCmd.FullCommand():
 		testType = "static"
 		testName = "barbican"
-		baseURL = fmt.Sprintf("http://keymanager-3.%s.cloud.sap", *region)
+		baseURL = fmt.Sprintf("https://keymanager-3.%s.cloud.sap", *region)
 		endpoint = *barbicanEndpoint
 	case glanceCmd.FullCommand():
 		testType = "static"
