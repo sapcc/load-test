@@ -5,10 +5,11 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/sirupsen/logrus"
 
 	vegeta "github.com/tsenart/vegeta/lib"
 )
